@@ -1,0 +1,50 @@
+version: '3.9'
+
+services:
+  api-service:
+    container_name: api-service
+    build:
+      dockerfile: Dockerfile
+      context: .
+    volumes:
+      - .:/app
+      - /app/node_modules
+    env_file:
+      - .env
+    ports:
+      - ${APP_PORT}:${APP_PORT}
+    networks:
+      - api-net
+    depends_on:
+      - postgres
+      - redis
+    restart: on-failure
+    stdin_open: true
+    # healthcheck:
+    #   test: ['CMD', 'npm', 'run', 'test']
+
+  postgres:
+    image: postgres
+    restart: unless-stopped
+    ports:
+      - ${POSTGRES_DATABASE_PORT}:${POSTGRES_DATABASE_PORT}
+    volumes:
+      - ./pg_data:/var/lib/postgresql/data/
+    healthcheck:
+      test: ['CMD', 'pg_isready', '-U', 'hifast']
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  redis:
+    image: redis
+    restart: unless-stopped
+    ports:
+      - ${REDIS_PORT}:${REDIS_PORT}
+    volumes:
+      - ./redis-service/config/redis.conf:/redis.conf
+
+networks:
+  api-net:
+volumes:
+  pg_data:
