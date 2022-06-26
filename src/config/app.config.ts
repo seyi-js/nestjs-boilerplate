@@ -1,4 +1,4 @@
-import { Environment, IAppConfig } from './interface';
+import { Environment } from './interface';
 
 export default () => ({
   app: {

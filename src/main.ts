@@ -9,11 +9,22 @@ async function bootstrap() {
   const logger = new Logger('bootstrap');
   const app = await NestFactory.create(AppModule);
 
-  app.useGlobalPipes(new ValidationPipe({ whitelist: true }));
-  setupSwagger(app);
   app.use(helmet());
+
+  app.useGlobalPipes(
+    new ValidationPipe({
+      whitelist: true,
+      forbidNonWhitelisted: true,
+      transform: true,
+    }),
+  );
+
+  setupSwagger(app);
+
   app.setGlobalPrefix('api/v2');
+
   app.enableCors();
+
   const configService = app.get<ConfigService>(ConfigService);
 
   const port = configService.get<number>('app.port');
