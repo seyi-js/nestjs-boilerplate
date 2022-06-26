@@ -21,7 +21,7 @@ async function bootstrap() {
 
   setupSwagger(app);
 
-  app.setGlobalPrefix('api/v2');
+  // app.setGlobalPrefix('api/v2', { exclude: ['/'] });
 
   app.enableCors();
 
