@@ -4,6 +4,7 @@ import { ConfigService } from '@nestjs/config';
 import helmet from 'helmet';
 import { AppModule } from './app.module';
 import { setupSwagger } from './swagger';
+import { loggerMiddleware } from './middleware';
 
 async function bootstrap() {
   const logger = new Logger('bootstrap');
@@ -21,7 +22,9 @@ async function bootstrap() {
 
   setupSwagger(app);
 
-  // app.setGlobalPrefix('api/v2', { exclude: ['/'] });
+  app.use(loggerMiddleware);
+
+  app.setGlobalPrefix('api/v2', { exclude: ['/'] });
 
   app.enableCors();
 

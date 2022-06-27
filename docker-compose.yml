@@ -28,7 +28,7 @@ services:
     ports:
       - 5432:5432
     volumes:
-      - ./pg_data:/var/lib/postgresql/data/
+      - pg_data:/var/lib/postgresql/data/
     healthcheck:
       test: ['CMD', 'pg_isready', '-U', 'postgres']
       interval: 10s
@@ -43,6 +43,7 @@ services:
     ports:
       - 6379:6379
     volumes:
-      - ./redis-service/config/redis.conf:/redis.conf
+      - redis_data:/data/redis
 volumes:
   pg_data:
+  redis_data:
