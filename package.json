@@ -1,8 +1,8 @@
 {
-  "name": "hifast-backend-v2",
+  "name": "setup",
   "private": true,
-  "version": "2.0.0",
-  "description": "HiFasthq backend.",
+  "version": "1.0.0",
+  "description": "setup",
   "license": "MIT",
   "scripts": {
     "prebuild": "rimraf dist",
